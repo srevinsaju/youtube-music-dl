@@ -20,7 +20,9 @@ from .main import YtMusicDownload
 def cli(url: List[str], output: str, overwrite: bool = False):
     """Simple Youtube Music Downloader"""
     if len(url) == 0:
-        print("You should provide at least one URL to download. See --help for more information.")
+        print(
+            "You should provide at least one URL to download. See --help for more information."
+        )
         return
     id_list_total = []
     ytdl = YtMusicDownload()
