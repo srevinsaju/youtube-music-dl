@@ -16,7 +16,19 @@ Pull requests are welcome. Feel free to...
 * Fix bugs
 * Suggest improvements
 
-## Install
+## Usage
+`youtube_music_dl` is available as an AppImage.
+
+```bash
+rm -rf ~/.local/bin/youtube-music-dl
+wget https://github.com/srevinsaju/youtube-music-dl/releases/download/continuous/youtube_music_dl-x86_64.AppImage -O ~/.local/bin/youtube-music-dl
+chmod +x ~/.local/bin/youtube-music-dl
+
+youtube-music-dl --help
+```
+
+
+## Development
 
 All dependencies are managed by [`poetry`](https://github.com/python-poetry/poetry)
 
