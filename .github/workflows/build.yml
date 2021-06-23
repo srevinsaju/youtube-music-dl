@@ -13,7 +13,7 @@ jobs:
           python3 -m pip install poetry
           python3 -m poetry install
       - name: Check code formatting with black
-        run: python3 -m poetry run black --check pyuploadtool/
+        run: python3 -m poetry run black --check youtube_music_dl/
 
   build-appimage:
     name: Build AppImage
