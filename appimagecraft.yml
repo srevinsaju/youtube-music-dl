@@ -1,0 +1,47 @@
+
+version: 1
+
+project:
+  name: com.github.srevinsaju.youtube_music_dl
+  version_command: cd "$PROJECT_ROOT" && git rev-parse --short HEAD
+
+build:
+  null:
+
+scripts:
+  post_build:
+    - |2
+      cat > "$BUILD_DIR"/youtube_music_dl.desktop <<\EOF
+      [Desktop Entry]
+      Name=Youtube Music Downloader
+      Type=Application
+      Icon=youtube_music_dl
+      Exec=youtube_music_dl
+      NoDisplay=true
+      Terminal=true
+      Categories=Utility;
+      EOF
+    - |2
+      cat > "$BUILD_DIR"/AppRun.sh <<\EOF
+      #! /bin/bash
+      this_dir=$(dirname "$0")
+      # add own bin dir as fallback
+      # might come in handy if readelf binary is missing on the system (not sure if that's even possible, though)
+      # also makes using bundled shellcheck easier
+      export PATH="$PATH":"$this_dir"/usr/bin
+      "$this_dir"/usr/bin/python -m youtube_music_dl.cli "$@"
+      EOF
+    - chmod +x AppRun.sh
+    - touch "$BUILD_DIR"/youtube_music_dl.svg
+
+
+appimage:
+  linuxdeploy:
+    plugins:
+      - conda
+    extra_args: -i "$BUILD_DIR"/youtube_music_dl.svg -d "$BUILD_DIR"/youtube_music_dl.desktop --custom-apprun "$BUILD_DIR"/AppRun.sh -e $(which shellcheck)
+    environment:
+      PIP_REQUIREMENTS: .
+    raw_environment:
+      - PIP_WORKDIR="$PROJECT_ROOT"
+      - OUTPUT=youtube_music_dl-"$ARCH".AppImage
